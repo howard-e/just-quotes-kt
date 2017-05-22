@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Just Quotes</string>
+
+    <string-array name="popular_quotes_categories">
+        <item>Random</item>
+        <item>Famous</item>
+        <item>Movies</item>
+    </string-array>
+
+    <string-array name="other_quotes_categories">
+        <item>Love</item>
+        <item>Friendship</item>
+        <item>Money</item>
+        <item>Food</item>
+        <item>People</item>
+    </string-array>
+</resources>
