@@ -98,6 +98,7 @@ class MainActivity : BaseActivity() {
                 .build()
     }
 
+    @Suppress("NAME_SHADOWING")
     override fun onSaveInstanceState(outState: Bundle?) {
         var outState = outState
         // add the values which need to be saved from the drawer to the bundle

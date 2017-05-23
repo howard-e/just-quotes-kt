@@ -108,7 +108,7 @@ open class BaseActivity : AppCompatActivity() {
         try {
             unregisterReceiver(mConnectionReceiver)
         } catch (e: IllegalArgumentException) {
-            //Log.e(TAG, e.message, e)
+            Log.e(TAG, e.message, e)
         }
     }
 

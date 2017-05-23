@@ -27,7 +27,7 @@ class QuoteRecyclerAdapter(private val context: Context, private val quotes: Lis
         val itemType = getItemViewType(position)
         if (itemType == ITEM_QUOTE) {
             val mHolder = holder as QuoteViewHolder
-            mHolder.bind(quotes[position] as Quote)
+            mHolder.bind(context, quotes[position] as Quote)
         }
     }
 
@@ -43,13 +43,13 @@ class QuoteRecyclerAdapter(private val context: Context, private val quotes: Lis
 
     class QuoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(quote: Quote) {
+        fun bind(context: Context, quote: Quote) {
             val rnd = Random()
             val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
             itemView.container.setBackgroundColor(color)
 
             itemView.quote.text = (quote.quote)
-            itemView.author.text = "- " + quote.author
+            itemView.author.text = context.getString(R.string.string_hyphen_prepend, quote.author)
         }
     }
 

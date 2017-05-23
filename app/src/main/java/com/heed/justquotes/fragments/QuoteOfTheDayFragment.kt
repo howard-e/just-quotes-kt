@@ -1,5 +1,6 @@
 package com.heed.justquotes.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -82,6 +83,7 @@ class QuoteOfTheDayFragment : Fragment() {
         })
     }
 
+    @SuppressLint("WrongConstant")
     private fun checkIfIsSameDay(timeStamp: Long): Boolean {
         val cal1: Calendar = Calendar.getInstance()
         val cal2: Calendar = Calendar.getInstance()
