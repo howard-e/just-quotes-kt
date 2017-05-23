@@ -66,7 +66,7 @@ class MainActivity : BaseActivity() {
                                 otherDrawerItems
                         )
                 )
-                .withOnDrawerItemClickListener(Drawer.OnDrawerItemClickListener { _, _, iDrawerItem ->
+                .withOnDrawerItemClickListener({ _, _, iDrawerItem ->
                     if (iDrawerItem is PrimaryDrawerItem) {
                         when (iDrawerItem.name.toString()) {
                             MENU_QUOTE_OF_THE_DAY -> showQuoteOfTheDay()

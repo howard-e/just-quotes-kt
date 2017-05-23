@@ -10,6 +10,7 @@ import io.realm.annotations.Required
  */
 
 open class QuoteOfTheDay() : RealmObject() {
+
     @PrimaryKey @Index lateinit var id: String
     @Required lateinit var quote: String
 

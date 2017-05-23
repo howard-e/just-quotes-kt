@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_quote_of_the_day.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 /**
  * @author Howard.
@@ -46,11 +47,10 @@ class QuoteOfTheDayFragment : Fragment() {
         if (quoteOfTheDay != null) {
             try {
                 this@QuoteOfTheDayFragment.quote.text = (quoteOfTheDay!!.quote)
-                this@QuoteOfTheDayFragment.author.text = "- " + quoteOfTheDay!!.author
+                this@QuoteOfTheDayFragment.author.text = getString(R.string.string_hyphen_prepend, quoteOfTheDay!!.author)
             } catch (e: NullPointerException) {
                 Log.e(TAG, e.message, e)
             }
-
         }
 
         val progressDialog = (activity as BaseActivity).showIndeterminateProgressDialog("Getting Quote Of The Day ...", true).build()
@@ -65,11 +65,12 @@ class QuoteOfTheDayFragment : Fragment() {
 
                     val newQuoteOfTheDay = QuoteOfTheDay("qotd", forismaticQuote.quoteText!!, forismaticQuote.quoteAuthor!!, null, System.currentTimeMillis())
                     if (quoteOfTheDay != null) {
-                        if (newQuoteOfTheDay != quoteOfTheDay /*TODO && it is a new day*/) {
-                            saveQuoteOfTheDay(newQuoteOfTheDay)
+                        if (newQuoteOfTheDay != quoteOfTheDay) {
+                            if (!checkIfIsSameDay(newQuoteOfTheDay.timeStamp)) {
+                                saveQuoteOfTheDay(newQuoteOfTheDay)
+                            } else showQuoteOfTheDay()
                         }
-                    } else
-                        saveQuoteOfTheDay(newQuoteOfTheDay)
+                    } else saveQuoteOfTheDay(newQuoteOfTheDay)
                 }
                 progressDialog.dismiss()
             }
@@ -81,14 +82,32 @@ class QuoteOfTheDayFragment : Fragment() {
         })
     }
 
+    private fun checkIfIsSameDay(timeStamp: Long): Boolean {
+        val cal1: Calendar = Calendar.getInstance()
+        val cal2: Calendar = Calendar.getInstance()
+
+        cal1.time = Date(timeStamp)
+        cal2.time = Date(realm!!.where(QuoteOfTheDay::class.java).findAll()[0].timeStamp)
+
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
+    }
+
     private fun saveQuoteOfTheDay(newQuoteOfTheDay: QuoteOfTheDay) {
         realm!!.executeTransaction { realm1 -> realm1.copyToRealmOrUpdate(newQuoteOfTheDay) }
 
         try {
             this@QuoteOfTheDayFragment.quote.text = (newQuoteOfTheDay.quote)
-            this@QuoteOfTheDayFragment.author.text = "- " + newQuoteOfTheDay.author
+            this@QuoteOfTheDayFragment.author.text = getString(R.string.string_hyphen_prepend, newQuoteOfTheDay.author)
         } catch (e: NullPointerException) {
             Log.e(TAG, e.message, e)
         }
+    }
+
+    private fun showQuoteOfTheDay() {
+        val quoteOfTheDay: QuoteOfTheDay = realm!!.where(QuoteOfTheDay::class.java).findAll()[0]
+
+        this@QuoteOfTheDayFragment.quote.text = (quoteOfTheDay.quote)
+        this@QuoteOfTheDayFragment.author.text = getString(R.string.string_hyphen_prepend, quoteOfTheDay.author)
     }
 }

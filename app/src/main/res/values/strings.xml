@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Just Quotes</string>
 
+    <string name="string_hyphen_prepend">- %1$s</string>
+
     <string-array name="popular_quotes_categories">
         <item>Random</item>
         <item>Famous</item>
