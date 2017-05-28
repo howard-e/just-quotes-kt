@@ -61,10 +61,11 @@ class MainActivity : BaseActivity() {
                         SectionDrawerItem().withName("Categories"),
                         ExpandableDrawerItem().withName("Popular").withIcon(FontAwesome.Icon.faw_fire).withSelectable(false).withSubItems(
                                 popularDrawerItems
-                        ),
-                        ExpandableDrawerItem().withName("Other").withIcon(FontAwesome.Icon.faw_quote_right).withSelectable(false).withSubItems(
-                                otherDrawerItems
                         )
+                        // TODO: Re-enable when endpoints have been sorted out
+                        /*ExpandableDrawerItem().withName("Other").withIcon(FontAwesome.Icon.faw_quote_right).withSelectable(false).withSubItems(
+                                otherDrawerItems
+                        )*/
                 )
                 .withOnDrawerItemClickListener({ _, _, iDrawerItem ->
                     if (iDrawerItem is PrimaryDrawerItem) {
