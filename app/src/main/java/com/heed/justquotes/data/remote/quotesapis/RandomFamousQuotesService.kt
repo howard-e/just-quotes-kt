@@ -15,6 +15,12 @@ import retrofit2.http.Query
 interface RandomFamousQuotesService {
 
     @POST("/")
+    fun getRandomCategoryWithList(@HeaderMap headers: Map<String, String>): Call<List<RandomFamousQuote>>
+
+    @POST("/")
+    fun getRandomFromCategoryWithList(@HeaderMap headers: Map<String, String>, @Query("cat") category: String, @Query("count") count: Int): Call<List<RandomFamousQuote>>
+
+    @POST("/")
     fun getRandomCategory(@HeaderMap headers: Map<String, String>): Call<RandomFamousQuote>
 
     @POST("/")

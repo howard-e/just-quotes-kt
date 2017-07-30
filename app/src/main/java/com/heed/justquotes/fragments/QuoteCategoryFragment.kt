@@ -53,6 +53,52 @@ class QuoteCategoryFragment : Fragment() {
         }
 
         override fun doInBackground(vararg voids: Void): Void? {
+            /*ApiRequest.hitRandomFamousQuotesApi(category, 4).enqueue(object : Callback<List<RandomFamousQuote>> {
+                override fun onResponse(call: Call<List<RandomFamousQuote>>, response: Response<List<RandomFamousQuote>>) {
+                    Log.d(TAG, "response status:" + response.isSuccessful)
+                    if (response.isSuccessful) {
+                        val randomFamousQuotes = response.body()
+                        Log.d(TAG, "randomFamousQuote:" + randomFamousQuotes!!)
+
+                        for (quote in randomFamousQuotes) {
+                            val newQuote = quote
+
+//                            val newQuote = Quote(quotes!!.size.toString(), quote.quote!!, quote.author, null)
+//                            Log.d(TAG, "check out this quote: " + newQuote)
+//
+//                            if (quotes != null) {
+//                                Log.d(TAG, "quotes any null bruh")
+//                            }
+
+//                            if (!quotes!!.contains(newQuote)) {
+//                                quotes.add(newQuote)
+//                                quoteRecyclerAdapter.notifyItemInserted(quoteRecyclerAdapter.itemCount)
+//                            }
+                        }
+
+//                        for (quote in randomFamousQuotes) {
+//                            if (quotes != null) {
+//                                if (!quotes.contains(quote)) {
+//                                    quotes.add(quote)
+//                                    quoteRecyclerAdapter.notifyItemInserted(quoteRecyclerAdapter.itemCount)
+//                                }
+//                            }
+//                        }
+
+
+//                        val quote = Quote(quotes!!.size.toString(), randomFamousQuotes.quote!!, randomFamousQuotes.author, null)
+
+//                        if (!quotes.contains(quote)) {
+//                            quotes.add(quote)
+//                            quoteRecyclerAdapter.notifyItemInserted(quoteRecyclerAdapter.itemCount)
+//                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<RandomFamousQuote>>, t: Throwable) {
+                    Log.e(TAG, "onFailure: " + t.message, t)
+                }*/
+
             for (i in 0..4) {
                 ApiRequest.hitRandomFamousQuotesApi(category).enqueue(object : Callback<RandomFamousQuote> {
                     override fun onResponse(call: Call<RandomFamousQuote>, response: Response<RandomFamousQuote>) {
@@ -74,8 +120,11 @@ class QuoteCategoryFragment : Fragment() {
                     }
                 })
             }
-            progressDialog.dismiss()
             return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            progressDialog.dismiss()
         }
     }
 

@@ -12,6 +12,21 @@ object ApiRequest {
 
     /**
      * @param category An optional category to call from
+     * @param count The amount of quotes to return
+     */
+    fun hitRandomFamousQuotesApi(category: String?, count: Int = 4): Call<List<RandomFamousQuote>> {
+        val randomFamousQuotesApi = ApiServiceGenerator.randomFamousQuotesService
+        val map = HashMap<String, String>()
+        map.put("X-Mashape-Key", "kCrcMSEo6xmsh66rCsfWuFgZs6fJp1Oj52wjsnk8v5dmGa0FTH")
+        map.put("Content-Type", "application/x-www-form-urlencoded")
+        map.put("Accept", "application/json")
+
+        if (category != null) return randomFamousQuotesApi.getRandomFromCategoryWithList(map, category, count)
+        return randomFamousQuotesApi.getRandomCategoryWithList(map)
+    }
+
+    /**
+     * @param category An optional category to call from
      */
     fun hitRandomFamousQuotesApi(category: String?): Call<RandomFamousQuote> {
         val randomFamousQuotesApi = ApiServiceGenerator.randomFamousQuotesService

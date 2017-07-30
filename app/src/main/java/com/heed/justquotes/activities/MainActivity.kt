@@ -37,7 +37,7 @@ class MainActivity : BaseActivity() {
                 .withActivity(this)
                 .withCompactStyle(true)
                 .withHeaderBackground(R.drawable.header)
-                .addProfiles(ProfileDrawerItem().withName("Anonymous"))
+                //.addProfiles(ProfileDrawerItem().withName("Anonymous"))
                 .withSelectionListEnabledForSingleProfile(false)
                 .build()
 
@@ -107,7 +107,7 @@ class MainActivity : BaseActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    fun showQuoteOfTheDay() {
+    private fun showQuoteOfTheDay() {
         supportFragmentManager.beginTransaction()
                 .replace(R.id.container, QuoteOfTheDayFragment())
                 .commit()
