@@ -8,17 +8,20 @@ import com.mikepenz.fontawesome_typeface_library.FontAwesome
 import com.mikepenz.materialdrawer.AccountHeaderBuilder
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
-import com.mikepenz.materialdrawer.model.*
+import com.mikepenz.materialdrawer.model.ExpandableDrawerItem
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
+import com.mikepenz.materialdrawer.model.SectionDrawerItem
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
-    private val TAG: String = this@MainActivity.javaClass.simpleName
+    private val _tag: String = this@MainActivity.javaClass.simpleName
 
-    private val MENU_QUOTE_OF_THE_DAY: String = "Quote Of The Day"
-    private val MENU_RANDOM: String = "Random"
-    private val MENU_FAMOUS: String = "Famous"
-    private val MENU_MOVIES: String = "Movies"
+    private val _menuQuoteOfTheDay: String = "Quote Of The Day"
+    private val _menuRandom: String = "Random"
+    private val _menuFamous: String = "Famous"
+    private val _menuMovies: String = "Movies"
 
     private var drawer: Drawer? = null
 
@@ -32,7 +35,7 @@ class MainActivity : BaseActivity() {
         showQuoteOfTheDay()
     }
 
-    fun setUpDrawer(savedInstanceState: Bundle?) {
+    private fun setUpDrawer(savedInstanceState: Bundle?) {
         val accountHeader = AccountHeaderBuilder()
                 .withActivity(this)
                 .withCompactStyle(true)
@@ -70,15 +73,15 @@ class MainActivity : BaseActivity() {
                 .withOnDrawerItemClickListener({ _, _, iDrawerItem ->
                     if (iDrawerItem is PrimaryDrawerItem) {
                         when (iDrawerItem.name.toString()) {
-                            MENU_QUOTE_OF_THE_DAY -> showQuoteOfTheDay()
+                            _menuQuoteOfTheDay -> showQuoteOfTheDay()
                         }
                     }
 
                     if (iDrawerItem is SecondaryDrawerItem) {
                         when (iDrawerItem.name.toString()) {
-                            MENU_RANDOM -> showQuoteFromCategory(null)
-                            MENU_FAMOUS -> showQuoteFromCategory("famous")
-                            MENU_MOVIES -> showQuoteFromCategory("movies")
+                            _menuRandom -> showQuoteFromCategory(null)
+                            _menuFamous -> showQuoteFromCategory("famous")
+                            _menuMovies -> showQuoteFromCategory("movies")
                         }
                     }
                     false

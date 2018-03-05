@@ -16,16 +16,16 @@ import java.util.*
  */
 class QuoteRecyclerAdapter(private val context: Context, private val quotes: List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
-            ITEM_QUOTE -> return QuoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_quote, parent, false))
+            _itemQuote -> return QuoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_quote, parent, false))
         }
-        return null
+        return QuoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_quote, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemType = getItemViewType(position)
-        if (itemType == ITEM_QUOTE) {
+        if (itemType == _itemQuote) {
             val mHolder = holder as QuoteViewHolder
             mHolder.bind(context, quotes[position] as Quote)
         }
@@ -37,7 +37,7 @@ class QuoteRecyclerAdapter(private val context: Context, private val quotes: Lis
 
     override fun getItemViewType(position: Int): Int {
         if (quotes[position] is Quote)
-            return ITEM_QUOTE
+            return _itemQuote
         return super.getItemViewType(position)
     }
 
@@ -55,8 +55,8 @@ class QuoteRecyclerAdapter(private val context: Context, private val quotes: Lis
 
     companion object {
 
-        private val TAG = QuoteRecyclerAdapter::class.java.simpleName
+        private val _tag = QuoteRecyclerAdapter::class.java.simpleName
 
-        private val ITEM_QUOTE = 100
+        private val _itemQuote = 100
     }
 }

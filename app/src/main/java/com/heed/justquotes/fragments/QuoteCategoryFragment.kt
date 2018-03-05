@@ -29,15 +29,15 @@ class QuoteCategoryFragment : Fragment() {
     private var quotes: MutableList<Any>? = null
     private var category: String? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        category = arguments.getString("category", null)
-        return inflater!!.inflate(R.layout.fragment_quote_category, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        category = arguments?.getString("category", null)
+        return inflater.inflate(R.layout.fragment_quote_category, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        quotes = ArrayList<Any>()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        quotes = ArrayList()
 
-        val quoteRecyclerAdapter = QuoteRecyclerAdapter(context, quotes as ArrayList<Any>)
+        val quoteRecyclerAdapter = QuoteRecyclerAdapter(this.context!!, quotes as ArrayList<Any>)
         this@QuoteCategoryFragment.recycler_view.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         this@QuoteCategoryFragment.recycler_view.adapter = quoteRecyclerAdapter
 

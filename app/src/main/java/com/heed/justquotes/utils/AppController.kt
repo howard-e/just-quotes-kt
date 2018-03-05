@@ -10,7 +10,7 @@ import io.realm.RealmConfiguration
  */
 class AppController : Application() {
 
-    private val TAG: String = this@AppController.javaClass.simpleName
+    private val _tag: String = this@AppController.javaClass.simpleName
 
     override fun onCreate() {
         super.onCreate()
@@ -26,7 +26,7 @@ class AppController : Application() {
         try {
             Realm.deleteRealm(config)
         } catch (e: Exception) { // No realm file to remove
-            Log.e(TAG, e.message, e)
+            Log.e(_tag, e.message, e)
         }
     }
 }

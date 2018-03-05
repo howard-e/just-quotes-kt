@@ -34,11 +34,11 @@ class QuoteOfTheDayFragment : Fragment() {
         realm = Realm.getDefaultInstance()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.fragment_quote_of_the_day, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_quote_of_the_day, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         try {
             quoteOfTheDay = realm!!.where(QuoteOfTheDay::class.java).findAll()[0]
         } catch (e: Exception) {
@@ -89,7 +89,7 @@ class QuoteOfTheDayFragment : Fragment() {
         val cal2: Calendar = Calendar.getInstance()
 
         cal1.time = Date(timeStamp)
-        cal2.time = Date(realm!!.where(QuoteOfTheDay::class.java).findAll()[0].timeStamp)
+        cal2.time = Date(realm!!.where(QuoteOfTheDay::class.java).findAll()[0]!!.timeStamp)
 
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                 cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
@@ -107,7 +107,7 @@ class QuoteOfTheDayFragment : Fragment() {
     }
 
     private fun showQuoteOfTheDay() {
-        val quoteOfTheDay: QuoteOfTheDay = realm!!.where(QuoteOfTheDay::class.java).findAll()[0]
+        val quoteOfTheDay: QuoteOfTheDay = realm!!.where(QuoteOfTheDay::class.java).findAll()[0]!!
 
         this@QuoteOfTheDayFragment.quote.text = (quoteOfTheDay.quote)
         this@QuoteOfTheDayFragment.author.text = getString(R.string.string_hyphen_prepend, quoteOfTheDay.author)
