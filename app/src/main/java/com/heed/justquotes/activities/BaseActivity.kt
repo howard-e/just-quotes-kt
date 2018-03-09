@@ -81,7 +81,7 @@ open class BaseActivity : AppCompatActivity() {
      * expect an immediate response on connection status (due to AsyncTask delay).
      *
      * In those instances, do the check manually like so to handle the onPostExecute yourself:
-     * new AsyncTask<Void></Void>, Void, Void>() {
+     * new AsyncTask<Void>, Void, Void>() {
      * boolean isConnected = false;
      *
      * protected Void doInBackground(Void... params) {
