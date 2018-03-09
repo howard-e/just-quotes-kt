@@ -93,11 +93,11 @@ class MainActivity : BaseActivity() {
                     // return true if event is consumed
                     true
                 }
-                .addStickyDrawerItems(
+                /*.addStickyDrawerItems(
                         SecondaryDrawerItem().withName("Settings").withIcon(FontAwesome.Icon.faw_cog),
                         SecondaryDrawerItem().withName("Help").withIcon(FontAwesome.Icon.faw_question),
                         SecondaryDrawerItem().withName("Contact Me").withIcon(FontAwesome.Icon.faw_bullhorn)
-                )
+                )*/
                 .withSavedInstance(savedInstanceState)
                 .build()
     }
