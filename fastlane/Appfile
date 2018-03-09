@@ -1,2 +1,2 @@
-json_key_file("") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+json_key_file("/Users/howard/MiscProjects/google_play_android_fastlane_key.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
 package_name("com.heed.justquotes") # e.g. com.krausefx.app
