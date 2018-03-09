@@ -14,15 +14,29 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+//    signingConfigs {
+//        release {
+//            if (keystorePropertiesFile.exists()) {
+//                storeFile file(keystoreProperties['JUST_QUOTES_RELEASE_STORE_FILE'])
+//                storePassword keystoreProperties['JUST_QUOTES_RELEASE_STORE_PASSWORD']
+//                keyAlias keystoreProperties['JUST_QUOTES_RELEASE_KEY_ALIAS']
+//                keyPassword keystoreProperties['JUST_QUOTES_RELEASE_KEY_PASSWORD']
+//            }
+//        }
+//    }
+
     buildTypes {
         release {
+//            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     sourceSets {
         test.java.srcDirs += 'src/test/java'
         androidTest.java.srcDirs += 'src/androidTest/java'
