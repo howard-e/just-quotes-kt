@@ -70,7 +70,7 @@ class MainActivity : BaseActivity() {
                                 otherDrawerItems
                         )*/
                 )
-                .withOnDrawerItemClickListener({ _, _, iDrawerItem ->
+                .withOnDrawerItemClickListener { _, _, iDrawerItem ->
                     if (iDrawerItem is PrimaryDrawerItem) {
                         when (iDrawerItem.name.toString()) {
                             _menuQuoteOfTheDay -> showQuoteOfTheDay()
@@ -85,7 +85,7 @@ class MainActivity : BaseActivity() {
                         }
                     }
                     false
-                })
+                }
                 .withOnDrawerNavigationListener {//this method is only called if the Arrow icon is shown. The hamburger is automatically managed by the MaterialDrawer
                     //if the back arrow is shown. close the activity
                     _ ->
