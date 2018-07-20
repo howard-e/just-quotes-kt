@@ -40,7 +40,7 @@ class QuoteCategoryFragment : Fragment() {
         val progressDialog = (activity as BaseActivity).showIndeterminateProgressDialog("Getting Quotes ...", true).build()
         progressDialog.show()
 
-        ApiRequest.hitRandomFamousQuotesApi(category, 8).enqueue(object : Callback<List<RandomFamousQuote>> {
+        ApiRequest.hitRandomFamousQuotesApi(category, 10).enqueue(object : Callback<List<RandomFamousQuote>> {
             override fun onResponse(call: Call<List<RandomFamousQuote>>, response: Response<List<RandomFamousQuote>>) {
                 Log.d(TAG, "response status: " + response.isSuccessful)
                 if (response.isSuccessful) {
