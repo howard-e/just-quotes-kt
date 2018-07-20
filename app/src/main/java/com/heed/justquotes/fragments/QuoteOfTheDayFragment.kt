@@ -57,7 +57,9 @@ class QuoteOfTheDayFragment : Fragment() {
                 Log.e(TAG, e.message, e)
                 progressDialog.dismiss()
             }
-        } else {
+        }
+
+        if (quoteOfTheDay == null || (quoteOfTheDay != null && !checkIfIsSameDay(quoteOfTheDay!!.timeStamp))) { // To prevent unnecessary calls to API
             ApiRequest.hitRandomForismaticQuote().enqueue(object : Callback<ForismaticQuote> {
                 override fun onResponse(call: Call<ForismaticQuote>, response: Response<ForismaticQuote>) {
                     Log.d(TAG, "response status:" + response.isSuccessful)
@@ -66,13 +68,8 @@ class QuoteOfTheDayFragment : Fragment() {
                         Log.d(TAG, "forismaticQuote:" + forismaticQuote!!)
 
                         val newQuoteOfTheDay = QuoteOfTheDay("qotd", forismaticQuote.quoteText!!, forismaticQuote.quoteAuthor!!, null, System.currentTimeMillis())
-                        if (quoteOfTheDay != null) {
-                            if (newQuoteOfTheDay != quoteOfTheDay) {
-                                if (!checkIfIsSameDay(newQuoteOfTheDay.timeStamp)) {
-                                    saveQuoteOfTheDay(newQuoteOfTheDay)
-                                } else showQuoteOfTheDay()
-                            }
-                        } else saveQuoteOfTheDay(newQuoteOfTheDay)
+                        saveQuoteOfTheDay(newQuoteOfTheDay)
+                        showQuoteOfTheDay()
                     }
                     progressDialog.dismiss()
                 }

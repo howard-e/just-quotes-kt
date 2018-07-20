@@ -1,10 +1,9 @@
 package com.heed.justquotes.data.remote.quotesapis
 
 import com.heed.justquotes.models.RandomFamousQuote
-
 import retrofit2.Call
+import retrofit2.http.GET
 import retrofit2.http.HeaderMap
-import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**
@@ -14,15 +13,15 @@ import retrofit2.http.Query
 
 interface RandomFamousQuotesService {
 
-    @POST("/")
+    @GET("/")
     fun getRandomCategoryWithList(@HeaderMap headers: Map<String, String>): Call<List<RandomFamousQuote>>
 
-    @POST("/")
+    @GET("/")
     fun getRandomFromCategoryWithList(@HeaderMap headers: Map<String, String>, @Query("cat") category: String, @Query("count") count: Int): Call<List<RandomFamousQuote>>
 
-    @POST("/")
+    @GET("/")
     fun getRandomCategory(@HeaderMap headers: Map<String, String>): Call<RandomFamousQuote>
 
-    @POST("/")
+    @GET("/")
     fun getRandomFromCategory(@HeaderMap headers: Map<String, String>, @Query("cat") category: String): Call<RandomFamousQuote>
 }
