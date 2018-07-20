@@ -2,6 +2,8 @@ package com.heed.justquotes.utils
 
 import android.app.Application
 import android.util.Log
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -16,6 +18,7 @@ class AppController : Application() {
         super.onCreate()
 
         // SDK inits
+        Fabric.with(this@AppController, Crashlytics())
         Realm.init(this@AppController)
 
         val config: RealmConfiguration = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()

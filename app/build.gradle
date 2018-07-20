@@ -1,3 +1,18 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        // These docs use an open ended version so that our plugin
+        // can be updated quickly in response to Android tooling updates
+
+        // We recommend changing it to the latest version from our changelog:
+        // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin
+        classpath 'io.fabric.tools:gradle:1.25.4'
+    }
+}
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -5,11 +20,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 apply plugin: 'realm-android'
+apply plugin: 'io.fabric'
 
-// Load keystore
-/*def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))*/
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
 
 android {
     compileSdkVersion 27
@@ -23,20 +38,26 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    /*signingConfigs {
+    signingConfigs {
         release {
+            // Load keystore
+            def keystorePropertiesFile = rootProject.file("keystore.properties")
+
             if (keystorePropertiesFile.exists()) {
-                storeFile file(keystoreProperties['JUST_QUOTES_RELEASE_STORE_FILE'])
-                storePassword keystoreProperties['JUST_QUOTES_RELEASE_STORE_PASSWORD']
-                keyAlias keystoreProperties['JUST_QUOTES_RELEASE_KEY_ALIAS']
-                keyPassword keystoreProperties['JUST_QUOTES_RELEASE_KEY_PASSWORD']
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
             }
         }
-    }*/
+    }
 
     buildTypes {
         release {
-            /*signingConfig signingConfigs.release*/
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -81,5 +102,9 @@ dependencies {
     implementation 'com.mikepenz:fontawesome-typeface:5.0.13.0@aar'
     implementation('com.mikepenz:materialdrawer:6.0.8@aar') {
         transitive = true
+    }
+
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+        transitive = true;
     }
 }
