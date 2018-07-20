@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_quote_category.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 /**
  * @author Howard.
@@ -37,17 +36,27 @@ class QuoteCategoryFragment : Fragment() {
         this@QuoteCategoryFragment.recycler_view.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         this@QuoteCategoryFragment.recycler_view.adapter = quoteRecyclerAdapter
 
+        loadQuotesData(quoteRecyclerAdapter)
+        this@QuoteCategoryFragment.swipe_refresh_layout.setOnRefreshListener {
+            loadQuotesData(quoteRecyclerAdapter)
+        }
+    }
+
+    private fun loadQuotesData(quoteRecyclerAdapter: QuoteRecyclerAdapter) {
         val progressDialog = (activity as BaseActivity).showIndeterminateProgressDialog("Getting Quotes ...", true).build()
         progressDialog.show()
 
-        ApiRequest.hitRandomFamousQuotesApi(category, 10).enqueue(object : Callback<List<RandomFamousQuote>> {
+        ApiRequest.hitRandomFamousQuotesApi(category, 5).enqueue(object : Callback<List<RandomFamousQuote>> {
             override fun onResponse(call: Call<List<RandomFamousQuote>>, response: Response<List<RandomFamousQuote>>) {
                 Log.d(TAG, "response status: " + response.isSuccessful)
                 if (response.isSuccessful) {
                     val randomFamousQuotes = response.body()
                     Log.d(TAG, "randomFamousQuotes: $randomFamousQuotes")
 
-                    if (randomFamousQuotes != null) {
+                    if (randomFamousQuotes != null && randomFamousQuotes.isNotEmpty()) {
+                        quotes!!.clear()
+                        quoteRecyclerAdapter.notifyDataSetChanged()
+
                         for (quote: RandomFamousQuote in randomFamousQuotes) {
                             val quoteToAdd = Quote(quotes!!.size.toString(), quote.quote!!, quote.author, null)
                             if (!quotes!!.contains(quoteToAdd)) {
@@ -56,12 +65,15 @@ class QuoteCategoryFragment : Fragment() {
                             }
                         }
                         progressDialog.dismiss()
+                        this@QuoteCategoryFragment.swipe_refresh_layout.isRefreshing = false
                     } else {
                         progressDialog.dismiss()
+                        this@QuoteCategoryFragment.swipe_refresh_layout.isRefreshing = false
                         // TODO: Show error on-screen
                     }
                 } else {
                     progressDialog.dismiss()
+                    this@QuoteCategoryFragment.swipe_refresh_layout.isRefreshing = false
                     // TODO: Show error on-screen
                 }
             }
@@ -69,6 +81,7 @@ class QuoteCategoryFragment : Fragment() {
             override fun onFailure(call: Call<List<RandomFamousQuote>>, t: Throwable) {
                 Log.e(TAG, t.message, t)
                 progressDialog.dismiss()
+                this@QuoteCategoryFragment.swipe_refresh_layout.isRefreshing = false
                 // TODO: Show error on-screen
             }
         })

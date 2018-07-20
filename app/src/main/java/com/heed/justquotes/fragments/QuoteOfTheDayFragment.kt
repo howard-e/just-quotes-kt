@@ -39,6 +39,13 @@ class QuoteOfTheDayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadQOTD()
+        this@QuoteOfTheDayFragment.swipe_refresh_layout.setOnRefreshListener {
+            loadQOTD()
+        }
+    }
+
+    private fun loadQOTD() {
         val progressDialog = (activity as BaseActivity).showIndeterminateProgressDialog("Getting Quote Of The Day ...", true).build()
         progressDialog.show()
 
@@ -52,9 +59,13 @@ class QuoteOfTheDayFragment : Fragment() {
             try {
                 this@QuoteOfTheDayFragment.quote.text = (quoteOfTheDay!!.quote)
                 this@QuoteOfTheDayFragment.author.text = getString(R.string.string_hyphen_prepend, quoteOfTheDay!!.author)
+
+                this@QuoteOfTheDayFragment.swipe_refresh_layout.isRefreshing = false
                 progressDialog.dismiss()
             } catch (e: NullPointerException) {
                 Log.e(TAG, e.message, e)
+
+                this@QuoteOfTheDayFragment.swipe_refresh_layout.isRefreshing = false
                 progressDialog.dismiss()
             }
         }
@@ -71,11 +82,15 @@ class QuoteOfTheDayFragment : Fragment() {
                         saveQuoteOfTheDay(newQuoteOfTheDay)
                         showQuoteOfTheDay()
                     }
+
+                    this@QuoteOfTheDayFragment.swipe_refresh_layout.isRefreshing = false
                     progressDialog.dismiss()
                 }
 
                 override fun onFailure(call: Call<ForismaticQuote>, t: Throwable) {
                     Log.e(TAG, t.message, t)
+
+                    this@QuoteOfTheDayFragment.swipe_refresh_layout.isRefreshing = false
                     progressDialog.dismiss()
                 }
             })
