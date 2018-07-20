@@ -1,0 +1,3 @@
+A simple application with one purpose. To show quotes.
+
+Quotes come from multiple categories. And at the start of every day, there's a new 'Quote Of The Day'.
