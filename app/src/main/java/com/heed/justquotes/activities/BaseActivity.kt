@@ -181,7 +181,6 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     companion object {
-
         private val TAG = BaseActivity::class.java.simpleName
     }
 }

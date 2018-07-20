@@ -58,7 +58,7 @@ class MainActivity : BaseActivity() {
 
         drawer = DrawerBuilder().withActivity(this@MainActivity)
                 .withToolbar(this@MainActivity.toolbar)
-                .withAccountHeader(accountHeader)
+                //.withAccountHeader(accountHeader)
                 .addDrawerItems(
                         PrimaryDrawerItem().withName("Quote Of The Day").withIcon(FontAwesome.Icon.faw_lightbulb_o),
                         SectionDrawerItem().withName("Categories"),
