@@ -17,11 +17,11 @@ interface RandomFamousQuotesService {
     fun getRandomCategoryWithList(@HeaderMap headers: Map<String, String>): Call<List<RandomFamousQuote>>
 
     @GET("/")
+    fun getRandomCategoryWithList(@HeaderMap headers: Map<String, String>, @Query("cat") category: String): Call<List<RandomFamousQuote>>
+
+    @GET("/")
+    fun getRandomCategoryWithList(@HeaderMap headers: Map<String, String>, @Query("count") count: Int): Call<List<RandomFamousQuote>>
+
+    @GET("/")
     fun getRandomFromCategoryWithList(@HeaderMap headers: Map<String, String>, @Query("cat") category: String, @Query("count") count: Int): Call<List<RandomFamousQuote>>
-
-    @GET("/")
-    fun getRandomCategory(@HeaderMap headers: Map<String, String>): Call<RandomFamousQuote>
-
-    @GET("/")
-    fun getRandomFromCategory(@HeaderMap headers: Map<String, String>, @Query("cat") category: String): Call<RandomFamousQuote>
 }
