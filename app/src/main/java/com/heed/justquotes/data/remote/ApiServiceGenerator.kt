@@ -42,21 +42,27 @@ open class ApiServiceGenerator {
                     .setLenient()
                     .create()
 
-        val theySaidSoApiService: TheySaidSoService
+        private val defaultInterceptor: HttpLoggingInterceptor
             get() {
-                val httpClient = OkHttpClient.Builder()
-                        .addInterceptor(HttpLoggingInterceptor())
-                        .build()
-                return getRetroClient(THEY_SAID_SO_BASE_URL, httpClient).create(TheySaidSoService::class.java)
+                val interceptor = HttpLoggingInterceptor()
+                interceptor.level = HttpLoggingInterceptor.Level.BODY
+                return interceptor
             }
 
+        private val defaultOkHttpClient: OkHttpClient
+            get() = OkHttpClient.Builder()
+                    .addInterceptor(defaultInterceptor)
+                    .build()
+
+
+        /**
+         * API Services
+         */
+        val theySaidSoApiService: TheySaidSoService
+            get() = getRetroClient(THEY_SAID_SO_BASE_URL, defaultOkHttpClient).create(TheySaidSoService::class.java)
+
         val randomFamousQuotesService: RandomFamousQuotesService
-            get() {
-                val httpClient = OkHttpClient.Builder()
-                        .addInterceptor(HttpLoggingInterceptor())
-                        .build()
-                return getRetroClient(RANDOM_FAMOUS_QUOTES_BASE_URL, httpClient).create(RandomFamousQuotesService::class.java)
-            }
+            get() = getRetroClient(RANDOM_FAMOUS_QUOTES_BASE_URL, defaultOkHttpClient).create(RandomFamousQuotesService::class.java)
 
         // Request customization: add request headers
         val forismaticService: ForismaticService
@@ -76,16 +82,11 @@ open class ApiServiceGenerator {
 
                     val request = requestBuilder.build()
                     chain.proceed(request)
-                }
+                }.addInterceptor(defaultInterceptor)
                 return getRetroClient(FORISMATIC_BASE_URL, httpClient.build()).create(ForismaticService::class.java)
             }
 
         val wikiQuoteService: WikiQuoteService
-            get() {
-                val httpClient = OkHttpClient.Builder()
-                        .addInterceptor(HttpLoggingInterceptor())
-                        .build()
-                return getRetroClient(WIKI_QUOTE_BASE_URL, httpClient).create(WikiQuoteService::class.java)
-            }
+            get() = getRetroClient(WIKI_QUOTE_BASE_URL, defaultOkHttpClient).create(WikiQuoteService::class.java)
     }
 }

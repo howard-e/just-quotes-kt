@@ -58,9 +58,9 @@ class MainActivity : BaseActivity() {
 
         drawer = DrawerBuilder().withActivity(this@MainActivity)
                 .withToolbar(this@MainActivity.toolbar)
-                .withAccountHeader(accountHeader)
+                //.withAccountHeader(accountHeader)
                 .addDrawerItems(
-                        PrimaryDrawerItem().withName("Quote Of The Day").withIcon(FontAwesome.Icon.faw_lightbulb_o),
+                        PrimaryDrawerItem().withName("Quote Of The Day").withIcon(FontAwesome.Icon.faw_lightbulb),
                         SectionDrawerItem().withName("Categories"),
                         ExpandableDrawerItem().withName("Popular").withIcon(FontAwesome.Icon.faw_fire).withSelectable(false).withSubItems(
                                 popularDrawerItems
@@ -93,11 +93,11 @@ class MainActivity : BaseActivity() {
                     // return true if event is consumed
                     true
                 }
-                .addStickyDrawerItems(
+                /*.addStickyDrawerItems(
                         SecondaryDrawerItem().withName("Settings").withIcon(FontAwesome.Icon.faw_cog),
                         SecondaryDrawerItem().withName("Help").withIcon(FontAwesome.Icon.faw_question),
                         SecondaryDrawerItem().withName("Contact Me").withIcon(FontAwesome.Icon.faw_bullhorn)
-                )
+                )*/
                 .withSavedInstance(savedInstanceState)
                 .build()
     }

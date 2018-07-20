@@ -12,9 +12,11 @@ import io.realm.annotations.Required
 open class Quote() : RealmObject() {
 
     @PrimaryKey
-    @Index lateinit var id: String
+    @Index
+    lateinit var id: String
 
-    @Required lateinit var quote: String
+    @Required
+    lateinit var quote: String
 
     var author: String? = null
     var imgUrl: String? = null

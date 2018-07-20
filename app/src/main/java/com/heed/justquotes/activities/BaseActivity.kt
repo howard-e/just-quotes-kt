@@ -57,9 +57,9 @@ open class BaseActivity : AppCompatActivity() {
                 urlConnection!!.connectTimeout = 1500
                 urlConnection!!.connect()
                 isConnectedToInternet = urlConnection!!.responseCode == 204 && urlConnection!!.contentLength == 0
-                Log.d(TAG, "isConnectedToInternet:" + isConnectedToInternet)
+                Log.d(TAG, "isConnectedToInternet: $isConnectedToInternet")
             } catch (e: IOException) {
-                Log.e(TAG, "Error checking internet connection:" + e.message, e)
+                Log.e(TAG, "Error checking internet connection: $e.message", e)
             }
 
             return null
@@ -181,7 +181,6 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     companion object {
-
         private val TAG = BaseActivity::class.java.simpleName
     }
 }
