@@ -7,6 +7,7 @@ import com.heed.justquotes.data.remote.quotesapis.RandomFamousQuotesService
 import com.heed.justquotes.data.remote.quotesapis.TheySaidSoService
 import com.heed.justquotes.data.remote.quotesapis.WikiQuoteService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -28,17 +29,10 @@ open class ApiServiceGenerator {
 
          * @return Retrofit Client
          */
-        private fun getRetroClient(BASE_URL: String): Retrofit {
+        private fun getRetroClient(BASE_URL: String, httpClient: OkHttpClient): Retrofit {
             return Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(lenientGson))
-                    .build()
-        }
-
-        private fun getRetroClient(BASE_URL: String, okHttpClient: OkHttpClient): Retrofit {
-            return Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(okHttpClient)
+                    .client(httpClient)
                     .addConverterFactory(GsonConverterFactory.create(lenientGson))
                     .build()
         }
@@ -49,10 +43,20 @@ open class ApiServiceGenerator {
                     .create()
 
         val theySaidSoApiService: TheySaidSoService
-            get() = getRetroClient(THEY_SAID_SO_BASE_URL).create(TheySaidSoService::class.java)
+            get() {
+                val httpClient = OkHttpClient.Builder()
+                        .addInterceptor(HttpLoggingInterceptor())
+                        .build()
+                return getRetroClient(THEY_SAID_SO_BASE_URL, httpClient).create(TheySaidSoService::class.java)
+            }
 
         val randomFamousQuotesService: RandomFamousQuotesService
-            get() = getRetroClient(RANDOM_FAMOUS_QUOTES_BASE_URL).create(RandomFamousQuotesService::class.java)
+            get() {
+                val httpClient = OkHttpClient.Builder()
+                        .addInterceptor(HttpLoggingInterceptor())
+                        .build()
+                return getRetroClient(RANDOM_FAMOUS_QUOTES_BASE_URL, httpClient).create(RandomFamousQuotesService::class.java)
+            }
 
         // Request customization: add request headers
         val forismaticService: ForismaticService
@@ -77,6 +81,11 @@ open class ApiServiceGenerator {
             }
 
         val wikiQuoteService: WikiQuoteService
-            get() = getRetroClient(WIKI_QUOTE_BASE_URL).create(WikiQuoteService::class.java)
+            get() {
+                val httpClient = OkHttpClient.Builder()
+                        .addInterceptor(HttpLoggingInterceptor())
+                        .build()
+                return getRetroClient(WIKI_QUOTE_BASE_URL, httpClient).create(WikiQuoteService::class.java)
+            }
     }
 }

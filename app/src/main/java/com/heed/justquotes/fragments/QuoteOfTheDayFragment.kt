@@ -39,6 +39,9 @@ class QuoteOfTheDayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val progressDialog = (activity as BaseActivity).showIndeterminateProgressDialog("Getting Quote Of The Day ...", true).build()
+        progressDialog.show()
+
         try {
             quoteOfTheDay = realm!!.where(QuoteOfTheDay::class.java).findAll()[0]
         } catch (e: Exception) {
@@ -49,38 +52,37 @@ class QuoteOfTheDayFragment : Fragment() {
             try {
                 this@QuoteOfTheDayFragment.quote.text = (quoteOfTheDay!!.quote)
                 this@QuoteOfTheDayFragment.author.text = getString(R.string.string_hyphen_prepend, quoteOfTheDay!!.author)
+                progressDialog.dismiss()
             } catch (e: NullPointerException) {
                 Log.e(TAG, e.message, e)
+                progressDialog.dismiss()
             }
-        }
+        } else {
+            ApiRequest.hitRandomForismaticQuote().enqueue(object : Callback<ForismaticQuote> {
+                override fun onResponse(call: Call<ForismaticQuote>, response: Response<ForismaticQuote>) {
+                    Log.d(TAG, "response status:" + response.isSuccessful)
+                    if (response.isSuccessful) {
+                        val forismaticQuote = response.body()
+                        Log.d(TAG, "forismaticQuote:" + forismaticQuote!!)
 
-        val progressDialog = (activity as BaseActivity).showIndeterminateProgressDialog("Getting Quote Of The Day ...", true).build()
-        progressDialog.show()
-
-        ApiRequest.hitRandomForismaticQuote().enqueue(object : Callback<ForismaticQuote> {
-            override fun onResponse(call: Call<ForismaticQuote>, response: Response<ForismaticQuote>) {
-                Log.d(TAG, "response status:" + response.isSuccessful)
-                if (response.isSuccessful) {
-                    val forismaticQuote = response.body()
-                    Log.d(TAG, "forismaticQuote:" + forismaticQuote!!)
-
-                    val newQuoteOfTheDay = QuoteOfTheDay("qotd", forismaticQuote.quoteText!!, forismaticQuote.quoteAuthor!!, null, System.currentTimeMillis())
-                    if (quoteOfTheDay != null) {
-                        if (newQuoteOfTheDay != quoteOfTheDay) {
-                            if (!checkIfIsSameDay(newQuoteOfTheDay.timeStamp)) {
-                                saveQuoteOfTheDay(newQuoteOfTheDay)
-                            } else showQuoteOfTheDay()
-                        }
-                    } else saveQuoteOfTheDay(newQuoteOfTheDay)
+                        val newQuoteOfTheDay = QuoteOfTheDay("qotd", forismaticQuote.quoteText!!, forismaticQuote.quoteAuthor!!, null, System.currentTimeMillis())
+                        if (quoteOfTheDay != null) {
+                            if (newQuoteOfTheDay != quoteOfTheDay) {
+                                if (!checkIfIsSameDay(newQuoteOfTheDay.timeStamp)) {
+                                    saveQuoteOfTheDay(newQuoteOfTheDay)
+                                } else showQuoteOfTheDay()
+                            }
+                        } else saveQuoteOfTheDay(newQuoteOfTheDay)
+                    }
+                    progressDialog.dismiss()
                 }
-                progressDialog.dismiss()
-            }
 
-            override fun onFailure(call: Call<ForismaticQuote>, t: Throwable) {
-                Log.e(TAG, t.message, t)
-                progressDialog.dismiss()
-            }
-        })
+                override fun onFailure(call: Call<ForismaticQuote>, t: Throwable) {
+                    Log.e(TAG, t.message, t)
+                    progressDialog.dismiss()
+                }
+            })
+        }
     }
 
     @SuppressLint("WrongConstant")
